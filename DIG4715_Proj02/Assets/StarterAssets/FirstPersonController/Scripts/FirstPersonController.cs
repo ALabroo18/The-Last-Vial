@@ -246,7 +246,12 @@ namespace StarterAssets
 			}
 		}
 
-		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+        private void Crouch()
+        {
+
+        }
+
+        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
@@ -264,5 +269,7 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
+		
 	}
+
 }
