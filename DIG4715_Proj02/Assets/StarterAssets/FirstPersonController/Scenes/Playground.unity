@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 295446112}
   m_Layer: 0
   m_Name: InteractionRange
-  m_TagString: Untagged
+  m_TagString: vent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,12 +169,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295446109}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.821, y: 1.303, z: 1.4801621}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.7141864, z: -0, w: 0.69995564}
+  m_LocalPosition: {x: 0.37702346, y: 0.042999983, z: 0.00839125}
+  m_LocalScale: {x: 1.0003723, y: 1, z: 12.370543}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1734880003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &295446112
 MonoBehaviour:
@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionText: {fileID: 916584885}
+  interactionPrefab: {fileID: 1734879999}
 --- !u!1 &542508511
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +652,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: asfsafd
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1051,7 +1052,8 @@ Transform:
   m_LocalPosition: {x: 1.83, y: 1.26, z: 1.45}
   m_LocalScale: {x: 0.08046478, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 295446111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -91.153, z: 0}
 --- !u!1 &1764214107
@@ -1718,5 +1720,4 @@ SceneRoots:
   - {fileID: 1979352518}
   - {fileID: 746329221}
   - {fileID: 1734880003}
-  - {fileID: 295446111}
   - {fileID: 988710585}

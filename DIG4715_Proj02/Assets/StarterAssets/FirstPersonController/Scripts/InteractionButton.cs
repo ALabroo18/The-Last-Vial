@@ -6,6 +6,9 @@ using UnityEngine;
 public class InteractionButton : MonoBehaviour
 {
     [SerializeField] public TextMeshProUGUI interactionText;
+    public GameObject interactionPrefab;
+
+    Quaternion targetRotation;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +23,15 @@ public class InteractionButton : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collided");
+        
         interactionText.text = "hello";
 
-        this.transform.Rotate(0.0f, 90.0f, 0.0f, Space.World);
+        // transform.rotation = Quaternion.Euler(transform.rotation.x, 90, 0f);
+        
+       targetRotation = Quaternion.Euler(interactionPrefab.transform.eulerAngles.x, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z + 90);
 
-
+       interactionPrefab.transform.rotation = targetRotation;
+       Debug.Log("Collided");
     }
     private void OnTriggerExit(Collider other)
     {
