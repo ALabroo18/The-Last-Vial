@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TMPro;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -74,6 +75,10 @@ namespace StarterAssets
 
 		private const float _threshold = 0.01f;
 
+		
+    	public GameObject interactionPrefab;
+		Quaternion targetRotation;
+
 		private bool IsCurrentDeviceMouse
 		{
 			get
@@ -115,6 +120,9 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			// if (Input.GetKeyDown(KeyCode.E)) {
+			// 	Debug.Log("Works");
+			// }
 		}
 
 		private void LateUpdate()
@@ -246,7 +254,16 @@ namespace StarterAssets
 			}
 		}
 
-		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+        private void Interaction()
+        {
+			if(Input.GetKey(KeyCode.E)) {
+                targetRotation = Quaternion.Euler(interactionPrefab.transform.eulerAngles.x, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z + 90);
+
+                interactionPrefab.transform.rotation = targetRotation;
+			}
+        }
+
+        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
@@ -264,5 +281,15 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
-	}
+
+        private void OnTriggerEnter(Collider other)
+        {
+			// Debug.Log("hi");
+            // if(other.CompareTag("vent") && Input.GetKeyDown(KeyCode.E)){
+			// 	Debug.Log("Works");
+			// }
+        }
+
+    }
+
 }
