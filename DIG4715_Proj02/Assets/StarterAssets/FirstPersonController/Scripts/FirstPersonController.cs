@@ -282,14 +282,6 @@ namespace StarterAssets
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
 
-        private void OnTriggerEnter(Collider other)
-        {
-			// Debug.Log("hi");
-            // if(other.CompareTag("vent") && Input.GetKeyDown(KeyCode.E)){
-			// 	Debug.Log("Works");
-			// }
-        }
-
     }
 
 }

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1381003850995546352}
   - component: {fileID: 5389671078092361848}
   - component: {fileID: 8138627798319320714}
+  - component: {fileID: 3372440900299851425}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -115,6 +116,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3372440900299851425
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5909709982228570259}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8201437419870775723, guid: f912a7b9a151ffb458d01c4d082f4100, type: 3}
 --- !u!1 &7330736258837089684
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +182,7 @@ GameObject:
   - component: {fileID: 3349755398507266669}
   - component: {fileID: 1495516727607057083}
   - component: {fileID: 242378092612098555}
+  - component: {fileID: 6717034516017811016}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -231,3 +255,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6717034516017811016
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628867928143330676}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5949695006547949565, guid: f912a7b9a151ffb458d01c4d082f4100, type: 3}

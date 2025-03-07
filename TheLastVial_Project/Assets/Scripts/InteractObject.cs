@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    [SerializeField] public TextMeshProUGUI interactionText;
+    public TextMeshProUGUI interactionText;
     public GameObject interactionPrefab;
 
-    public int movePositionX = 0;
+
+    public float movePositionX = 3;
     public int movePositionY = 0;
+
+
+    // Bools to check collision and if moved
+    private bool isCollision = false;
 
     private bool isMoved = false;
     Quaternion targetRotation;
@@ -23,32 +28,63 @@ public class InteractObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isCollision && Input.GetKey(KeyCode.E)) {
+
+            // Move object
+            Debug.Log("If statement works");
+            // interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
+
+            if(interactionPrefab != null) {
+
+                if(isMoved == false) {
+                     Debug.Log("false");
+                     interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x + movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
+                     isMoved = true;
+                }
+                else if(isMoved == true) {
+                    Debug.Log("true");
+                    interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
+                    isMoved = false;
+                }
+                   
+
+                
+
+            }
+
+        }
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Moved");
+        if(other.gameObject.CompareTag("Whiteboard")) {
+            Debug.Log("Moved");
+            interactionText.text = "Object Moved";
+            interactionPrefab = other.gameObject;
+            isCollision = true;
+        }
         
-        interactionText.text = "Object Moved";
 
-        Transform original = interactionPrefab.transform;
-        // Changes position by 5 if the boolean hasnt been changed
-        if(isMoved == false){
-            interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x + 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-            isMoved = true;
-        }
-        else if(isMoved == true) {
-            interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-            isMoved = false;
-        }
+        // Transform original = interactionPrefab.transform;
+        // // Changes position by 5 if the boolean hasnt been changed
+        // if(isMoved == false){
+        //     interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x + 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
+        //     isMoved = true;
+        // }
+        // else if(isMoved == true) {
+            // interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
+        //     isMoved = false;
+        // }
 
     //    interactionPrefab.transform.position = targetRotation;
     //    Debug.Log("Collided");
     }
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
+        Debug.Log("exit");
         interactionText.text = "";
+        isCollision = false;
     }
 
 }

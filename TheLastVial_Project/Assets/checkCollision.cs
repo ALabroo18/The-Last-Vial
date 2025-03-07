@@ -15,7 +15,7 @@ public class checkCollision : MonoBehaviour
     {
         
     }
-    private void OllisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         Debug.Log("hi");
         
