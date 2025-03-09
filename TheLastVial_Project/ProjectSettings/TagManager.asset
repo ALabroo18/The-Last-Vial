@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - Whiteboard
+  - Enemy
+  - Vent
   layers:
   - Default
   - TransparentFX

@@ -19,6 +19,9 @@ public class InteractObject : MonoBehaviour
     private bool isMoved = false;
     Quaternion targetRotation;
     Transform targetPosition;
+
+    // Death Screen
+    MainMenu mainMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +68,7 @@ public class InteractObject : MonoBehaviour
             isCollision = true;
         }
         
+        
 
         // Transform original = interactionPrefab.transform;
         // // Changes position by 5 if the boolean hasnt been changed
@@ -86,5 +90,7 @@ public class InteractObject : MonoBehaviour
         interactionText.text = "";
         isCollision = false;
     }
+
+    
 
 }

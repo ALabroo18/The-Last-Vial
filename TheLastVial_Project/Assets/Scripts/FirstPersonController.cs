@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -63,6 +63,15 @@ namespace StarterAssets
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
+		// UI
+		  //Pause Menu
+		public MainMenu menu;
+		public GameObject pauseMenu;
+		private bool isPaused = false;
+
+		//Death screen
+		public GameObject deathScreen;
+		
 
 	
 #if ENABLE_INPUT_SYSTEM
@@ -97,6 +106,8 @@ namespace StarterAssets
 
 		private void Start()
 		{
+			Time.timeScale = 1;
+			Cursor.lockState = CursorLockMode.Locked;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM
@@ -115,11 +126,39 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+
+			// Check if the player wants to use the pause button
+			checkPause();
+			
+
+
 		}
 
 		private void LateUpdate()
 		{
 			CameraRotation();
+		}
+
+		private void checkPause() {
+			if(Input.GetKeyDown(KeyCode.P) && isPaused == false) {
+				pauseMenu.SetActive(true);
+				Cursor.lockState = CursorLockMode.None;
+				Time.timeScale = 0;
+				// GetComponent(MouseLook).enabled = false;
+
+
+				isPaused = true;
+			}
+			else if(Input.GetKeyDown(KeyCode.P) && isPaused == true) {
+				pauseMenu.SetActive(false);
+				Cursor.lockState = CursorLockMode.Locked;
+				Time.timeScale = 1;
+
+				// Pause the camera
+
+
+				isPaused = false;
+			}
 		}
 
 		private void GroundedCheck()
@@ -151,7 +190,7 @@ namespace StarterAssets
 			}
 		}
 
-		private void Move()
+        private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
@@ -264,5 +303,13 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
+	private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Enemy")) {
+            Debug.Log("hi");
+            menu.LoadDeathScreen(deathScreen);
+			Cursor.lockState = CursorLockMode.None;
+        }
+    }
 	}
 }
