@@ -28,7 +28,7 @@ public class InteractionButton : MonoBehaviour
 
         // transform.rotation = Quaternion.Euler(transform.rotation.x, 90, 0f);
         
-       targetRotation = Quaternion.Euler(interactionPrefab.transform.eulerAngles.x, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z + 90);
+       targetRotation = Quaternion.Euler(interactionPrefab.transform.eulerAngles.x + 90, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z );
 
        interactionPrefab.transform.rotation = targetRotation;
     //    Debug.Log("Collided");

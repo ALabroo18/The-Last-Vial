@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public FirstPersonController fpc;
 
     private void Start()
     {
@@ -42,6 +44,9 @@ public class MainMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
+        fpc.isCam = true;
+
+        Debug.Log("Works");
 
     }
 

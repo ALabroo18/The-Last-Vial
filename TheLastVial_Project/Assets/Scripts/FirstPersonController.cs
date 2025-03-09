@@ -67,7 +67,10 @@ namespace StarterAssets
 		  //Pause Menu
 		public MainMenu menu;
 		public GameObject pauseMenu;
-		private bool isPaused = false;
+		public bool isPaused = false;
+		
+		// To disable camera rotation
+		public bool isCam = true;
 
 		//Death screen
 		public GameObject deathScreen;
@@ -108,6 +111,7 @@ namespace StarterAssets
 		{
 			Time.timeScale = 1;
 			Cursor.lockState = CursorLockMode.Locked;
+			isCam = true;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM
@@ -136,7 +140,11 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
-			CameraRotation();
+			if(isCam == true) 
+				CameraRotation();
+			else {
+
+			}
 		}
 
 		private void checkPause() {
@@ -144,6 +152,7 @@ namespace StarterAssets
 				pauseMenu.SetActive(true);
 				Cursor.lockState = CursorLockMode.None;
 				Time.timeScale = 0;
+				isCam = false;
 				// GetComponent(MouseLook).enabled = false;
 
 
@@ -153,6 +162,7 @@ namespace StarterAssets
 				pauseMenu.SetActive(false);
 				Cursor.lockState = CursorLockMode.Locked;
 				Time.timeScale = 1;
+				isCam = true;
 
 				// Pause the camera
 

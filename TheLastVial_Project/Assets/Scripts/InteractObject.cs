@@ -17,8 +17,15 @@ public class InteractObject : MonoBehaviour
     private bool isCollision = false;
 
     private bool isMoved = false;
+    private bool isRotated = false;
+
+
+    //Vent Interaction
+    [SerializeField] private bool isVent = false;
     Quaternion targetRotation;
-    Transform targetPosition;
+
+    // Saves rotation of x axis before it gets rotated
+    float rotationX;
 
     // Death Screen
     MainMenu mainMenu;
@@ -31,24 +38,37 @@ public class InteractObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isCollision && Input.GetKey(KeyCode.E)) {
+        if(isCollision && Input.GetKeyDown(KeyCode.E)) {
 
-            // Move object
-            Debug.Log("If statement works");
-            // interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-
+            
             if(interactionPrefab != null) {
 
-                if(isMoved == false) {
+                if(isVent == true && isRotated == false) {
+                    rotationX = interactionPrefab.transform.eulerAngles.x;
+                    targetRotation = Quaternion.Euler(90, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z);
+                    interactionPrefab.transform.rotation = targetRotation;
+                    isRotated = true;
+
+                }
+                else if(isVent == true && isRotated == true) {
+                    targetRotation = Quaternion.Euler(rotationX, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z);
+                    interactionPrefab.transform.rotation = targetRotation;
+                    isRotated = false;
+                }
+                else {
+                    if(isMoved == false) {
                      Debug.Log("false");
                      interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x + movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
                      isMoved = true;
+                    }
+                    else if(isMoved == true) {
+                        Debug.Log("true");
+                        interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
+                        isMoved = false;
+                    }
                 }
-                else if(isMoved == true) {
-                    Debug.Log("true");
-                    interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-                    isMoved = false;
-                }
+
+                
                    
 
                 
@@ -63,9 +83,15 @@ public class InteractObject : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Whiteboard")) {
             Debug.Log("Moved");
-            interactionText.text = "Object Moved";
+            interactionText.text = "Press E to Move Board";
             interactionPrefab = other.gameObject;
             isCollision = true;
+        }
+        else if(other.gameObject.CompareTag("Vent")) {
+            interactionText.text = "Press E to Open/Close Vent";
+            interactionPrefab = other.gameObject;
+            isCollision = true;
+            isVent = true;
         }
         
         
