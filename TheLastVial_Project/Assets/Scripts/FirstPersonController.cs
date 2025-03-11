@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 #endif
 
 namespace StarterAssets
@@ -67,13 +68,18 @@ namespace StarterAssets
 		  //Pause Menu
 		public MainMenu menu;
 		public GameObject pauseMenu;
+		public GameObject continueButton;
 		public bool isPaused = false;
 		
 		// To disable camera rotation
 		public bool isCam = true;
 
+		private bool isDead = false;
+
 		//Death screen
 		public GameObject deathScreen;
+
+		public AudioSource audioSource;
 		
 
 	
@@ -112,6 +118,7 @@ namespace StarterAssets
 			Time.timeScale = 1;
 			Cursor.lockState = CursorLockMode.Locked;
 			isCam = true;
+			isDead = false;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM
@@ -148,17 +155,16 @@ namespace StarterAssets
 		}
 
 		private void checkPause() {
-			if(Input.GetKeyDown(KeyCode.P) && isPaused == false) {
+			if((Input.GetKeyDown(KeyCode.P) || Input.GetButtonDown("Enable Debug Button 1")) && isPaused == false && isDead == false) {
 				pauseMenu.SetActive(true);
 				Cursor.lockState = CursorLockMode.None;
 				Time.timeScale = 0;
 				isCam = false;
-				// GetComponent(MouseLook).enabled = false;
 
 
 				isPaused = true;
 			}
-			else if(Input.GetKeyDown(KeyCode.P) && isPaused == true) {
+			else if((Input.GetKeyDown(KeyCode.P) || Input.GetButtonDown("Enable Debug Button 1")) && isPaused == true && isDead == false) {
 				pauseMenu.SetActive(false);
 				Cursor.lockState = CursorLockMode.Locked;
 				Time.timeScale = 1;
@@ -313,13 +319,23 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
-	private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.CompareTag("Enemy")) {
-            Debug.Log("hi");
-            menu.LoadDeathScreen(deathScreen);
-			Cursor.lockState = CursorLockMode.None;
-        }
-    }
+
+		public void PlaySound(AudioClip clip){
+        	audioSource.PlayOneShot(clip);
+    	}
+		private void OnTriggerEnter(Collider other)
+		{
+			if(other.gameObject.CompareTag("Enemy")) {
+				Debug.Log("hi");
+				menu.LoadDeathScreen(deathScreen);
+				Cursor.lockState = CursorLockMode.None;
+				Time.timeScale = 0;
+				isDead = true;
+
+				EventSystem eventSystem = EventSystem.current;
+
+        		eventSystem.SetSelectedGameObject(continueButton);
+			}
+		}
 	}
 }

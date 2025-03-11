@@ -8,6 +8,8 @@ TagManager:
   - Whiteboard
   - Enemy
   - Vent
+  - 'Vent Trigger '
+  - Vent trig
   layers:
   - Default
   - TransparentFX
