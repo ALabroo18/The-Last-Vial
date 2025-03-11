@@ -127,6 +127,7 @@ using StarterAssets;
 using TMPro;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 public class InteractObject : MonoBehaviour
 {
@@ -145,6 +146,8 @@ public class InteractObject : MonoBehaviour
     private bool hasCollided = false;
     private bool hasMoved = false;
     private bool hasRotated = false;
+
+    private bool isCooldown = false;
 
     // Vent Interaction
     [SerializeField] private bool isVentObject = false;
@@ -180,12 +183,13 @@ public class InteractObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Opening Vents and whiteoards
         if (hasCollided && Input.GetButtonDown("Fire1"))
         {
             if (interactablePrefab != null)
             {
-                if (isVentObject && !hasRotated)
+                // If player is interacting with Vent
+                if (isVentObject && !hasRotated && !isCooldown)
                 {
                     originalXRotation = interactablePrefab.transform.eulerAngles.x;
                     newRotation = Quaternion.Euler(90, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
@@ -194,25 +198,16 @@ public class InteractObject : MonoBehaviour
 
                     fpc.PlaySound(ventClip);
 
-                    // Play vent sound
-                    // if (ventSoundSource != null)
-                    // {
-                    //     ventSoundSource.Play();
-                    // }
+                    //Turn off 
                 }
                 else if (isVentObject && hasRotated)
                 {
                     newRotation = Quaternion.Euler(originalXRotation, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
                     interactablePrefab.transform.rotation = newRotation;
                     hasRotated = false;
+                    isCooldown = true;
 
                     // Play vent sound
-
-                    // fpc.PlaySound(ventClip);
-                    // if (ventSoundSource != null)
-                    // {
-                    //     ventSoundSource.Play();
-                    // }
                     fpc.PlaySound(ventClip);
                 }
                 else
@@ -277,30 +272,41 @@ public class InteractObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Vent trig") && isIn == false) {
+        if(other.gameObject.CompareTag("Vent in") && isIn == false) {
 
             Debug.Log("hi");
             // save original cinemachine virtual camera into a different variable
             Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
-            // if(followComponent == null) {
-            //     Debug.Log("Component is null");
-            // }
-
+            //If the cinemachine is recognized
             if(followComponent != null) {
 
                  Debug.Log("Entered");
                  followComponent.VerticalArmLength = 0.38f;
                 //Change bool to true
                  isIn = true;
+
+                 // Turn off collision for two seconds
+
+                //  StartCoroutine(CooldownRoutine(other.GetComponent<Collider>()));
             }
+
+            // Change Rotation back
+
+            newRotation = Quaternion.Euler(originalXRotation, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
+            interactablePrefab.transform.rotation = newRotation;
+            hasRotated = false;
+            isCooldown = true;
+            fpc.PlaySound(ventClip);
+
+            // Disable the in trigger and enable the out trigger 
 
             // change the cinemachine camera
            
 
             
         }
-        else if(other.gameObject.CompareTag("Vent trig") && isIn == true) {
+        if(other.gameObject.CompareTag("Vent out") && isIn == true) {
             //change the cinemachine camera back to original 
              Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
@@ -312,12 +318,26 @@ public class InteractObject : MonoBehaviour
 
                 //change bool to false
                 isIn = false;
+
+                // Disable the out trigger and enable the in trigger
              }
 
             
         }
-
-        // If the is
         
+    }
+
+    IEnumerator CooldownRoutine(Collider trigger)
+    {
+
+        trigger.GetComponent<BoxCollider>().enabled = false;
+
+        
+        // Wait for the cooldown time
+        yield return new WaitForSeconds(2);
+
+        trigger.GetComponent<BoxCollider>().enabled = true;
+
+        isCooldown = false;
     }
 }   
