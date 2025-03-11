@@ -127,6 +127,7 @@ using StarterAssets;
 using TMPro;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 public class InteractObject : MonoBehaviour
 {
@@ -198,22 +199,14 @@ public class InteractObject : MonoBehaviour
                     // if (ventSoundSource != null)
                     // {
                     //     ventSoundSource.Play();
-                    // }
-                }
-                else if (isVentObject && hasRotated)
-                {
-                    newRotation = Quaternion.Euler(originalXRotation, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
-                    interactablePrefab.transform.rotation = newRotation;
-                    hasRotated = false;
+                    // }    
 
-                    // Play vent sound
+                    // Let it be open for a couple of seconds, then close
+                    StartCoroutine(CloseVent());
 
-                    // fpc.PlaySound(ventClip);
-                    // if (ventSoundSource != null)
-                    // {
-                    //     ventSoundSource.Play();
-                    // }
                     fpc.PlaySound(ventClip);
+
+                    //Set has rotated to false
                 }
                 else
                 {
@@ -249,22 +242,16 @@ public class InteractObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Whiteboard"))
         {
             Debug.Log("Whiteboard interacted");
-            uiInteractionText.text = "Press E/A to Move Board";
+            uiInteractionText.text = "Press the interact button (E) to Move Board";
             interactablePrefab = collision.gameObject;
             hasCollided = true;
         }
         else if (collision.gameObject.CompareTag("Vent"))
         {
-            uiInteractionText.text = "Press E/A to Open/Close Vent";
+            uiInteractionText.text = "Press the interact Button (E) to Open Vent";
             interactablePrefab = collision.gameObject;
             hasCollided = true;
             isVentObject = true;
-
-            // Assign vent's AudioSource if not already assigned
-            // if (ventSoundSource == null)
-            // {
-            //     ventSoundSource = interactablePrefab.GetComponent<AudioSource>();
-            // }
         }
     }
 
@@ -275,49 +262,82 @@ public class InteractObject : MonoBehaviour
         hasCollided = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+
+
+    private void ChangeCamera()
     {
-        if(other.gameObject.CompareTag("Vent trig") && isIn == false) {
+        Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
-            Debug.Log("hi");
-            // save original cinemachine virtual camera into a different variable
-            Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        // if(followComponent == null) {
+        //     Debug.Log("Component is null");
+        // }
 
-            // if(followComponent == null) {
-            //     Debug.Log("Component is null");
-            // }
 
-            if(followComponent != null) {
-
-                 Debug.Log("Entered");
-                 followComponent.VerticalArmLength = 0.38f;
-                //Change bool to true
-                 isIn = true;
-            }
-
-            // change the cinemachine camera
-           
-
-            
+        if (followComponent.VerticalArmLength == 0.75f)
+        {
+            followComponent.VerticalArmLength = 0.38f;
         }
-        else if(other.gameObject.CompareTag("Vent trig") && isIn == true) {
-            //change the cinemachine camera back to original 
-             Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-
-             if (followComponent !=  null) {
-                // change the cinemachine camera
-                followComponent.VerticalArmLength = 0.75f;
-
-                Debug.Log("Exit");
-
-                //change bool to false
-                isIn = false;
-             }
-
-            
+        else if (followComponent.VerticalArmLength == 0.38f)
+        {
+            followComponent.VerticalArmLength = 0.75f;
         }
 
-        // If the is
-        
+        if (followComponent != null)
+        {
+
+            Debug.Log("Entered");
+
+
+        }
     }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //if(other.gameObject.CompareTag("Vent trig") && isIn == false) {
+
+    //    Debug.Log("hi");
+    //    // save original cinemachine virtual camera into a different variable
+        
+    //        //Change bool to true
+    //         isIn = true;
+    //    }
+
+//    //    // change the cinemachine camera
+
+
+
+//    //}
+//    //else if(other.gameObject.CompareTag("Vent trig") && isIn == true) {
+//    //    //change the cinemachine camera back to original 
+//    //     Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+
+//    //     if (followComponent !=  null) {
+//    //        // change the cinemachine camera
+//    //        followComponent.VerticalArmLength = 0.75f;
+
+//    //        Debug.Log("Exit");
+
+//    //        //change bool to false
+//    //        isIn = false;
+//    //     }
+
+
+//    //}
+
+//    // If the is
+
+//}
+    IEnumerator CloseVent()
+    {
+        ChangeCamera();
+
+        
+        yield return new WaitForSeconds(3);
+
+        newRotation = Quaternion.Euler(originalXRotation, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
+        interactablePrefab.transform.rotation = newRotation;
+
+        hasRotated = false;
+
+    }
+
 }   
