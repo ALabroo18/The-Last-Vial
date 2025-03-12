@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TitleScreen.unity
     guid: 361dca32dfa86074fbe5e1baf42573fd
   - enabled: 1
@@ -14,12 +14,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Main Scene2.unity
     guid: 637903e364978954ba6078af43fbf799
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Controls.unity
     guid: 3a43e176b509cc7418a0b359efb195fc
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/WinScreen.unity
     guid: fb9efc30ab9768642ba9094d69c86e83
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 8118205168a73224abd6410e67e646ed
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
       type: 2}

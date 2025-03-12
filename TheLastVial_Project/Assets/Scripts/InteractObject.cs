@@ -74,11 +74,12 @@ public class InteractObject : MonoBehaviour
                     newRotation = Quaternion.Euler(90, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
                     interactablePrefab.transform.rotation = newRotation;
                     hasRotated = true;
-
+                    isVentObject = false;
                     fpc.PlaySound(ventClip);  
 
                     // Let it be open for a couple of seconds, then close
                     StartCoroutine(CloseVent());
+                    
 
                     fpc.PlaySound(ventClip);
 
@@ -142,6 +143,9 @@ public class InteractObject : MonoBehaviour
         Debug.Log("Collision exited");
         uiInteractionText.text = "";
         hasCollided = false;
+        if(collision.gameObject.CompareTag("Vent")) {
+            isVentObject = false;
+        }
         // interactablePrefab = null;
     }
 
