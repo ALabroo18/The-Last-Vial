@@ -1,125 +1,4 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using TMPro;
-// using UnityEngine;
 
-// public class InteractObject : MonoBehaviour
-// {
-//     public TextMeshProUGUI interactionText;
-//     public GameObject interactionPrefab;
-
-
-//     public float movePositionX = 3;
-//     public int movePositionY = 0;
-
-
-//     // Bools to check collision and if moved
-//     private bool isCollision = false;
-
-//     private bool isMoved = false;
-//     private bool isRotated = false;
-
-
-//     //Vent Interaction
-//     [SerializeField] private bool isVent = false;
-//     Quaternion targetRotation;
-
-//     // Saves rotation of x axis before it gets rotated
-//     float rotationX;
-
-//     // Death Screen
-//     MainMenu mainMenu;
-//     // Start is called before the first frame update
-//     void Start()
-//     {
-        
-//     }
-
-//     // Update is called once per frame
-//     void Update()
-//     {
-//         if(isCollision && Input.GetKeyDown(KeyCode.E)) {
-
-            
-//             if(interactionPrefab != null) {
-
-//                 if(isVent == true && isRotated == false) {
-//                     rotationX = interactionPrefab.transform.eulerAngles.x;
-//                     targetRotation = Quaternion.Euler(90, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z);
-//                     interactionPrefab.transform.rotation = targetRotation;
-//                     isRotated = true;
-
-//                 }
-//                 else if(isVent == true && isRotated == true) {
-//                     targetRotation = Quaternion.Euler(rotationX, interactionPrefab.transform.eulerAngles.y , interactionPrefab.transform.eulerAngles.z);
-//                     interactionPrefab.transform.rotation = targetRotation;
-//                     isRotated = false;
-//                 }
-//                 else {
-//                     if(isMoved == false) {
-//                      Debug.Log("false");
-//                      interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x + movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-//                      isMoved = true;
-//                     }
-//                     else if(isMoved == true) {
-//                         Debug.Log("true");
-//                         interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - movePositionX, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-//                         isMoved = false;
-//                     }
-//                 }
-
-                
-                   
-
-                
-
-//             }
-
-//         }
-        
-//     }
-
-//     private void OnCollisionEnter(Collision other)
-//     {
-//         if(other.gameObject.CompareTag("Whiteboard")) {
-//             Debug.Log("Moved");
-//             interactionText.text = "Press E to Move Board";
-//             interactionPrefab = other.gameObject;
-//             isCollision = true;
-//         }
-//         else if(other.gameObject.CompareTag("Vent")) {
-//             interactionText.text = "Press E to Open/Close Vent";
-//             interactionPrefab = other.gameObject;
-//             isCollision = true;
-//             isVent = true;
-//         }
-        
-        
-
-//         // Transform original = interactionPrefab.transform;
-//         // // Changes position by 5 if the boolean hasnt been changed
-//         // if(isMoved == false){
-//         //     interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x + 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-//         //     isMoved = true;
-//         // }
-//         // else if(isMoved == true) {
-//             // interactionPrefab.transform.position = new Vector3(interactionPrefab.transform.position.x - 5, interactionPrefab.transform.position.y, interactionPrefab.transform.position.z);
-//         //     isMoved = false;
-//         // }
-
-//     //    interactionPrefab.transform.position = targetRotation;
-//     //    Debug.Log("Collided");
-//     }
-//     private void OnCollisionExit(Collision other)
-//     {
-//         Debug.Log("exit");
-//         interactionText.text = "";
-//         isCollision = false;
-//     }
-
-    
-
-// }
 
 using System.Collections;
 using System.Collections.Generic;
@@ -136,8 +15,8 @@ public class InteractObject : MonoBehaviour
 
     public CinemachineVirtualCamera myCamera;
 
-    public float xMovementOffset = 3;
-    public int yMovementOffset = 0;
+    private float xMovementOffset = 0;
+    private float yMovementOffset = 0;
 
     // Audio Source
     [SerializeField] private AudioSource ventSoundSource;
@@ -146,6 +25,9 @@ public class InteractObject : MonoBehaviour
     private bool hasCollided = false;
     private bool hasMoved = false;
     private bool hasRotated = false;
+
+    PushValue op;
+
 
     // Vent Interaction
     [SerializeField] private bool isVentObject = false;
@@ -193,13 +75,7 @@ public class InteractObject : MonoBehaviour
                     interactablePrefab.transform.rotation = newRotation;
                     hasRotated = true;
 
-                    fpc.PlaySound(ventClip);
-
-                    // Play vent sound
-                    // if (ventSoundSource != null)
-                    // {
-                    //     ventSoundSource.Play();
-                    // }    
+                    fpc.PlaySound(ventClip);  
 
                     // Let it be open for a couple of seconds, then close
                     StartCoroutine(CloseVent());
@@ -214,6 +90,9 @@ public class InteractObject : MonoBehaviour
                     {
                         // fpc.PlaySound(ventClip);
                         Debug.Log("hasMoved is false");
+
+                        if(op != null)
+                            xMovementOffset = op.xvalue;
                         interactablePrefab.transform.position = new Vector3(
                             interactablePrefab.transform.position.x + xMovementOffset,
                             interactablePrefab.transform.position.y,
@@ -242,8 +121,11 @@ public class InteractObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Whiteboard"))
         {
             Debug.Log("Whiteboard interacted");
+            op = collision.gameObject.GetComponent<PushValue>();
             uiInteractionText.text = "Press the interact button (E) to Move Board";
             interactablePrefab = collision.gameObject;
+
+            
             hasCollided = true;
         }
         else if (collision.gameObject.CompareTag("Vent"))
@@ -260,6 +142,7 @@ public class InteractObject : MonoBehaviour
         Debug.Log("Collision exited");
         uiInteractionText.text = "";
         hasCollided = false;
+        // interactablePrefab = null;
     }
 
 
@@ -267,12 +150,6 @@ public class InteractObject : MonoBehaviour
     private void ChangeCamera()
     {
         Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-
-        // if(followComponent == null) {
-        //     Debug.Log("Component is null");
-        // }
-
-
         if (followComponent.VerticalArmLength == 0.75f)
         {
             followComponent.VerticalArmLength = 0.38f;
@@ -290,42 +167,6 @@ public class InteractObject : MonoBehaviour
 
         }
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //if(other.gameObject.CompareTag("Vent trig") && isIn == false) {
-
-    //    Debug.Log("hi");
-    //    // save original cinemachine virtual camera into a different variable
-        
-    //        //Change bool to true
-    //         isIn = true;
-    //    }
-
-//    //    // change the cinemachine camera
-
-
-
-//    //}
-//    //else if(other.gameObject.CompareTag("Vent trig") && isIn == true) {
-//    //    //change the cinemachine camera back to original 
-//    //     Cinemachine3rdPersonFollow followComponent = myCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-
-//    //     if (followComponent !=  null) {
-//    //        // change the cinemachine camera
-//    //        followComponent.VerticalArmLength = 0.75f;
-
-//    //        Debug.Log("Exit");
-
-//    //        //change bool to false
-//    //        isIn = false;
-//    //     }
-
-
-//    //}
-
-//    // If the is
-
-//}
     IEnumerator CloseVent()
     {
         ChangeCamera();
@@ -335,7 +176,6 @@ public class InteractObject : MonoBehaviour
 
         newRotation = Quaternion.Euler(originalXRotation, interactablePrefab.transform.eulerAngles.y, interactablePrefab.transform.eulerAngles.z);
         interactablePrefab.transform.rotation = newRotation;
-
         hasRotated = false;
 
     }

@@ -211,6 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4292151390496554044}
   - component: {fileID: 8098868132469838343}
+  - component: {fileID: 1867840244032279085}
   m_Layer: 0
   m_Name: Whiteboard
   m_TagString: Whiteboard
@@ -255,6 +256,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.051261, y: 2.144397, z: 0.41162968}
   m_Center: {x: 0.029389858, y: 1.0222365, z: -0.003255844}
+--- !u!114 &1867840244032279085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444300426733065840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9254657307199e64193386aedbe54f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xvalue: 0
+  yvalue: 0
 --- !u!1 &6912114918072571296
 GameObject:
   m_ObjectHideFlags: 0
