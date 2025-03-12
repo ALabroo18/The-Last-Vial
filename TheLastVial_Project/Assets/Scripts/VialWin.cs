@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement; 
 
 public class VialWin : MonoBehaviour
@@ -8,6 +9,7 @@ public class VialWin : MonoBehaviour
        
         if (other.CompareTag("Player"))
         {
+            Cursor.lockState = CursorLockMode.None;
             LoadWinScreen(); LoadWinScreen();
         }
     }

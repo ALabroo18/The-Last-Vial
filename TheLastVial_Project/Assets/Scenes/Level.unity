@@ -4503,7 +4503,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.79
+  m_Radius: 0.6
   m_Height: 3.4855738
   m_Direction: 1
   m_Center: {x: -0.0000000031041658, y: 0.9095073, z: 0.29131246}
@@ -5536,7 +5536,7 @@ GameObject:
   - component: {fileID: 1098346962}
   m_Layer: 0
   m_Name: Player Avatar
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10019,6 +10019,7 @@ GameObject:
   - component: {fileID: 1877619442}
   - component: {fileID: 1877619441}
   - component: {fileID: 1877619446}
+  - component: {fileID: 1877619447}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -10192,6 +10193,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 1966093378}
   fpc: {fileID: 1098346956}
+--- !u!114 &1877619447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877619440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a696beb9ca7004e99931fa8aa55247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1887826460
 GameObject:
   m_ObjectHideFlags: 0
@@ -10765,7 +10778,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
