@@ -5751,7 +5751,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiInteractionText: {fileID: 1555540800}
-  interactablePrefab: {fileID: 0}
   myCamera: {fileID: 701648099}
   ventSoundSource: {fileID: 1098346962}
   isVentObject: 0
